@@ -10,14 +10,9 @@ namespace WpfApp1.MVVM.Models
 {
     public class DialogManagment :  INotifyPropertyChanged
     {
-        private string filePath, folderPath, text, selectedFile;
+        private string folderPath, text, selectedFile;
 
-        public string FilePath { get => filePath; set
-            {
-                filePath = value;
-                OnPropertyChanged("FilePath");
-            }
-        }
+    
         public string FolderPath { get => folderPath; set
             {
                 folderPath = value;
