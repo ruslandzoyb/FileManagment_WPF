@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -15,6 +16,7 @@ namespace WpfApp1.MVVM.ViewModels
     {
         private DialogManagment dialogManagment;
         private BaseCommand selectFile;
+        private BaseCommand selectImage;
         private BaseCommand selectFolder;
         private BaseCommand createFile;
         private FileManagement fileManagement;
@@ -35,6 +37,19 @@ namespace WpfApp1.MVVM.ViewModels
                   (selectFile = new BaseCommand(obj =>
                   {
                      dialogManagment.SelectedFile = fileManagement.SelectFileDialog();
+                  }));
+            }
+        }
+
+        public BaseCommand SelectImageCommand
+        {
+            get
+            {
+                return selectImage ??
+                  (selectImage = new BaseCommand(obj =>
+                  {                      
+                      dialogManagment.SelectedImage = fileManagement.SelectImageDialog();                      
+                     
                   }));
             }
         }
@@ -68,6 +83,6 @@ namespace WpfApp1.MVVM.ViewModels
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        }
+        }      
     }
 }

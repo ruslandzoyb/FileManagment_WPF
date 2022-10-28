@@ -5,12 +5,13 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace WpfApp1.MVVM.Models
 {
     public class DialogManagment :  INotifyPropertyChanged
     {
-        private string folderPath, text, selectedFile;
+        private string folderPath, text, selectedFile, selectedImage;
 
     
         public string FolderPath { get => folderPath; set
@@ -32,6 +33,16 @@ namespace WpfApp1.MVVM.Models
             {
                 selectedFile = value;
                 OnPropertyChanged("SelectedFile");
+            }
+        }
+
+        public string SelectedImage
+        {
+            get => selectedImage;
+            set
+            {
+                selectedImage = value;
+                OnPropertyChanged("SelectedImage");
             }
         }
 

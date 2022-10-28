@@ -5,31 +5,59 @@
        
         Title="MainWindow" Height="450" Width="800"
         >
+    <TabControl>
+        <TabItem Header="First" Height="30" Width="100">
 
-    <Grid  >
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
+            <TabItem.Content>
+                <Grid  >
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
 
 
-        <Button  Grid.Column="0" Grid.Row="0"  Command="{Binding Path=SelectFolderPath}">Выбор пути
-        </Button>
-        <Label Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="158,0,0,144" Grid.RowSpan="2" Width="108">Selected Folder:</Label>
-        <Label Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right">Text:</Label>
-        <Button Grid.Column="0" Grid.Row="1" Command="{Binding Path=CreateFile}" >Create</Button>
-        <Label Grid.Column="1" Grid.Row="2"  Content="selectedFile:" HorizontalAlignment="Right"/>
-        <Button  Grid.Column="0" Grid.Row="2" Command="{Binding Path=SelectFileCommand}">Выбор файла</Button>
-        <TextBox x:Name="selectedFolder" Grid.Column="2" Grid.Row="0"  Text="{Binding Path=DialogManagment.FolderPath}" ></TextBox>
-        <TextBox  x:Name="textBox" Grid.Column="2" Grid.Row="1"  Text="{Binding DialogManagment.Text, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-        <TextBox x:Name="selectedFile" Grid.Column="2" Grid.Row="2"  Text="{Binding Path=DialogManagment.SelectedFile}" TextWrapping="Wrap"/>
+                    <Button  Grid.Column="0" Grid.Row="0"  Command="{Binding Path=SelectFolderPath}">Выбор пути
+                    </Button>
+                    <Label Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="158,0,0,144" Grid.RowSpan="2" Width="108">Selected Folder:</Label>
+                    <Label Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right">Text:</Label>
+                    <Button Grid.Column="0" Grid.Row="1" Command="{Binding Path=CreateFile}" >Create</Button>
+                    <Label Grid.Column="1" Grid.Row="2"  Content="selectedFile:" HorizontalAlignment="Right"/>
+                    <Button  Grid.Column="0" Grid.Row="2" Command="{Binding Path=SelectFileCommand}">Выбор файла</Button>
+                    <TextBox x:Name="selectedFolder" Grid.Column="2" Grid.Row="0"  Text="{Binding Path=DialogManagment.FolderPath}" ></TextBox>
+                    <TextBox  x:Name="textBox" Grid.Column="2" Grid.Row="1"  Text="{Binding DialogManagment.Text, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                    <TextBox x:Name="selectedFile" Grid.Column="2" Grid.Row="2"  Text="{Binding Path=DialogManagment.SelectedFile}" TextWrapping="Wrap"/>
 
-    </Grid>
+                </Grid>
+            </TabItem.Content>
+        </TabItem>
+        <TabItem Header="Second" Height="30" Width="100">
+            <TabItem.Content>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="156*"/>
+                        <ColumnDefinition Width="108*"/>
+                        <ColumnDefinition Width="265*"/>
+                        <ColumnDefinition Width="265*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Button  Grid.Column="0" Grid.Row="0"  Command="{Binding Path=SelectImageCommand}" Grid.ColumnSpan="3" Margin="0,0,264,0">Список файлов из папки
+                    </Button>
+                    <Image Grid.Column="2"  x:Name="mainImage" Source="{Binding DialogManagment.SelectedImage}" Margin="128,2,108,49" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
 
+
+                </Grid>
+            </TabItem.Content>
+        </TabItem>
+    </TabControl>
 </Window>

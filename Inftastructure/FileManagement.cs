@@ -70,10 +70,30 @@ namespace WpfApp1.Infrastructure
 
         }
 
+        public string SelectImageDialog()
+        {
+            var dialog = DialogCreator.CreateOpenFileDialog();
+            SetDefaultImageDialogSettings(dialog);
+                dialog.ShowDialog();
+            if (!string.IsNullOrEmpty(dialog.FileName))
+            {
+                return dialog.FileName;
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
         private void SetDefaultSaveDialogSettings(FileDialog dialog, string folderPath)
         {
             dialog.InitialDirectory = folderPath;
             dialog.DefaultExt = "txt";
+        }
+
+        private void SetDefaultImageDialogSettings(FileDialog dialog)
+        {           
+            dialog.Filter = "Image Files|*.jpeg;*.png;*.bmp;*...";
         }
     }
 }
