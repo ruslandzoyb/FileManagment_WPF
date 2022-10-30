@@ -41,7 +41,9 @@
             <TabItem.Content>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="156*"/>
+                        <ColumnDefinition Width="38*"/>
+                        <ColumnDefinition Width="14*"/>
+                        <ColumnDefinition Width="104*"/>
                         <ColumnDefinition Width="108*"/>
                         <ColumnDefinition Width="265*"/>
                         <ColumnDefinition Width="265*"/>
@@ -51,9 +53,32 @@
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Button  Grid.Column="0" Grid.Row="0"  Command="{Binding Path=SelectImageCommand}" Grid.ColumnSpan="3" Margin="0,0,264,0">Список файлов из папки
+                    <Button  Grid.Column="0" Grid.Row="0"  Command="{Binding Path=SelectImageCommand}" Grid.ColumnSpan="5" Margin="0,0,264,0">Список файлов из папки
                     </Button>
-                    <Image Grid.Column="2"  x:Name="mainImage" Source="{Binding DialogManagment.SelectedImage}" Margin="128,2,108,49" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+                    <Image Grid.Column="4"  x:Name="mainImage" Source="{Binding DialogManagment.SelectedImage}" Margin="132,12,132,12" Grid.ColumnSpan="2"/>
+                    <Button Grid.ColumnSpan="5" Margin="0,5,264,127" Grid.RowSpan="2" Grid.Row="1" Command="{Binding Path=SelectFilesFromDir}"   >Выбор пути
+                    </Button>
+                    <ListView ItemsSource="{Binding Path=DialogManagment.FilesInSelectedFolder}" Grid.Column="4" Margin="0,132,0,0" Grid.RowSpan="2">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" 
+                            Header="Name" Width="100"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding  Path = FullName  }" 
+                            Header="Full Path"  Width="100"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button Grid.Column="2" Command="{Binding Path=SelectMultiFiles}" Content="Multi" HorizontalAlignment="Center" Margin="0,21,0,0" Grid.Row="2" VerticalAlignment="Top" Height="101" Width="283"/>
+                    <ListView Grid.Column="4" Grid.Row="2" ItemsSource="{Binding Path=DialogManagment.SelectedFiles}" >
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Item1}" 
+                            Header="Name" Width="100"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding  Path = Item2  }" 
+                            Header="Full Path"  Width="100"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
 
 
                 </Grid>

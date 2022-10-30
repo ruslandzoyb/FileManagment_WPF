@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -12,8 +13,11 @@ namespace WpfApp1.MVVM.Models
     public class DialogManagment :  INotifyPropertyChanged
     {
         private string folderPath, text, selectedFile, selectedImage;
+        private FileInfo[] filesInSelectedFolder;
+        private IEnumerable<Tuple<string, string>> selectedFiles;
 
-    
+
+
         public string FolderPath { get => folderPath; set
             {
                 folderPath = value;
@@ -46,6 +50,27 @@ namespace WpfApp1.MVVM.Models
             }
         }
 
+        public FileInfo[] FilesInSelectedFolder {
+            get => filesInSelectedFolder;
+
+            set
+            {
+                filesInSelectedFolder = value;
+                OnPropertyChanged("FilesInSelectedFolder");
+            }
+        }
+
+
+        public IEnumerable<Tuple<string, string>> SelectedFiles
+        {
+            get => selectedFiles;
+
+            set
+            {
+                selectedFiles = value;
+                OnPropertyChanged("SelectedFiles");
+            }
+        }
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {

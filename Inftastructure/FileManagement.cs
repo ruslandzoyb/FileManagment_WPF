@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,20 +44,19 @@ namespace WpfApp1.Infrastructure
         public string OpenFolderDialog()
         {
             var dialog = DialogCreator.CreateFolderDialog();
-            var result = dialog.ShowDialog();
-            if (result.ToString() != string.Empty)
-            {
-                return dialog.SelectedPath;
-            }
-            else
-            {
-                throw new NullReferenceException("Path is null");
-            }
+            var result = dialog.ShowDialog();           
+            return dialog.SelectedPath;           
+        }
+
+        public FileInfo[] GetFilesFromDirectory(string path)
+        {
+            DirectoryInfo d = new DirectoryInfo(path);
+            return d.GetFiles();
         }
 
         public string SelectFileDialog()
         {
-            var dialog = DialogCreator.CreateOpenFileDialog();
+            var dialog = DialogCreator.CreateOpenFileDialog();            
             dialog.ShowDialog();
             if (!string.IsNullOrEmpty(dialog.FileName))
             {
@@ -67,6 +67,24 @@ namespace WpfApp1.Infrastructure
                 return string.Empty;
             }
 
+
+        }
+
+        public IEnumerable<Tuple<string, string>> SelectMultiFileDialog()
+        {
+            var dialog =  (OpenFileDialog)DialogCreator.CreateOpenFileDialog();
+            dialog.Multiselect = true;
+            dialog.ShowDialog();
+            if (dialog.FileNames != null)
+            {
+             return dialog.FileNames
+                    .Select(file => new Tuple<string, string>(file.Split('\\').Last(), file));
+               
+            }
+            else
+            {
+                return Array.Empty<Tuple<string, string>>();
+            }
 
         }
 

@@ -16,9 +16,11 @@ namespace WpfApp1.MVVM.ViewModels
     {
         private DialogManagment dialogManagment;
         private BaseCommand selectFile;
+        private BaseCommand selectFilesFromDir;
         private BaseCommand selectImage;
         private BaseCommand selectFolder;
         private BaseCommand createFile;
+        private BaseCommand selectMultiFiles;
         private FileManagement fileManagement;
         public ApplicationViewModel()
         {
@@ -35,8 +37,9 @@ namespace WpfApp1.MVVM.ViewModels
             {
                 return selectFile ??
                   (selectFile = new BaseCommand(obj =>
-                  {
-                     dialogManagment.SelectedFile = fileManagement.SelectFileDialog();
+
+                  {                    
+                    dialogManagment.SelectedFile = fileManagement.SelectFileDialog();
                   }));
             }
         }
@@ -48,7 +51,7 @@ namespace WpfApp1.MVVM.ViewModels
                 return selectImage ??
                   (selectImage = new BaseCommand(obj =>
                   {                      
-                      dialogManagment.SelectedImage = fileManagement.SelectImageDialog();                      
+                      dialogManagment.SelectedImage = fileManagement.SelectImageDialog();
                      
                   }));
             }
@@ -61,7 +64,12 @@ namespace WpfApp1.MVVM.ViewModels
                 return selectFolder ??
                   (selectFolder = new BaseCommand(obj =>
                   {
-                      dialogManagment.FolderPath = fileManagement.OpenFolderDialog();
+                      var path = fileManagement.OpenFolderDialog();
+                      if (!string.IsNullOrEmpty(path))
+                      {
+                          dialogManagment.FolderPath = path;
+                      }
+                         
                   }));
             }
         }
@@ -77,6 +85,49 @@ namespace WpfApp1.MVVM.ViewModels
                   }));
             }
         }
+
+        public BaseCommand SelectFilesFromDir
+        {
+            get
+            {
+                return selectFilesFromDir ??
+                  (selectFilesFromDir = new BaseCommand(obj =>
+                  {
+                      var path = fileManagement.OpenFolderDialog();
+                      if (!string.IsNullOrEmpty(path))
+                      {
+                          dialogManagment.FilesInSelectedFolder = fileManagement.GetFilesFromDirectory(path);
+                      }
+                     
+
+                  }));
+            }
+             }
+
+        public BaseCommand SelectMultiFiles
+        {
+            get
+            {
+                return selectMultiFiles ??
+                  (selectMultiFiles = new BaseCommand(obj =>
+                  {
+                      var filesFromDialog = fileManagement.SelectMultiFileDialog().ToList();
+                      if (dialogManagment.SelectedFiles is null)
+                      {
+                          dialogManagment.SelectedFiles = filesFromDialog;
+                      }
+                      else
+                      {
+                          var intersect = filesFromDialog.Union(dialogManagment.SelectedFiles).ToList();
+                          dialogManagment.SelectedFiles = intersect;
+                      }
+                      
+
+                  }));
+            }
+        }
+
+        
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
