@@ -138,7 +138,8 @@ namespace WpfApp1.MVVM.ViewModels
                         if (Clipboard.ContainsImage() || Clipboard.ContainsFileDropList())
                         {
                             var files = ((string[])Clipboard.GetData(DataFormats.FileDrop))
-                        .Select(i => new ImageView { Image = i }).ToList();
+                            .Where(i => i.isImage())
+                            .Select(i => new ImageView { Image = i }).ToList();
                             if (dialogManagment.SelectedImages != null)
                             {
                                 dialogManagment.SelectedImages = dialogManagment.SelectedImages.Union(files).ToList();
@@ -155,6 +156,7 @@ namespace WpfApp1.MVVM.ViewModels
         public void DropHandle(object sender, DragEventArgs e)
         {
             var files = ((string[])e.Data.GetData(DataFormats.FileDrop))
+                .Where(i => i.isImage())
                 .Select(i => new ImageView { Image = i }).ToList();
             // var files = fileManagement.GetImagesFromPath(e.Data).ToList();
             if (dialogManagment.SelectedImages != null)

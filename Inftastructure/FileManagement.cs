@@ -1,24 +1,17 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media.Imaging;
 using WpfApp1.MVVM.Models;
-using IDataObject = System.Windows.IDataObject;
 
 namespace WpfApp1.Infrastructure
 {
+
     public class FileManagement
     {
 
-      
+
         private FileContentWriter writer;
         public FileManagement()
         {
@@ -27,7 +20,7 @@ namespace WpfApp1.Infrastructure
 
         public void HandleFileManagement(DialogManagment dialog)
         {
-           var filePath = CreateFilePath(dialog.FolderPath);
+            var filePath = CreateFilePath(dialog.FolderPath);
             writer.CreateFile(filePath);
             writer.WriteToFile(filePath, dialog.Text);
         }
@@ -50,8 +43,8 @@ namespace WpfApp1.Infrastructure
         public string OpenFolderDialog()
         {
             var dialog = DialogCreator.CreateFolderDialog();
-            var result = dialog.ShowDialog();           
-            return dialog.SelectedPath;           
+            var result = dialog.ShowDialog();
+            return dialog.SelectedPath;
         }
 
         public FileInfo[] GetFilesFromDirectory(string path)
@@ -62,7 +55,7 @@ namespace WpfApp1.Infrastructure
 
         public string SelectFileDialog()
         {
-            var dialog = DialogCreator.CreateOpenFileDialog();            
+            var dialog = DialogCreator.CreateOpenFileDialog();
             dialog.ShowDialog();
             if (!string.IsNullOrEmpty(dialog.FileName))
             {
@@ -78,14 +71,14 @@ namespace WpfApp1.Infrastructure
 
         public IEnumerable<Tuple<string, string>> SelectMultiFileDialog()
         {
-            var dialog =  (OpenFileDialog)DialogCreator.CreateOpenFileDialog();
+            var dialog = (OpenFileDialog)DialogCreator.CreateOpenFileDialog();
             dialog.Multiselect = true;
             dialog.ShowDialog();
             if (dialog.FileNames != null)
             {
-             return dialog.FileNames
-                    .Select(file => new Tuple<string, string>(file.Split('\\').Last(), file));
-               
+                return dialog.FileNames
+                       .Select(file => new Tuple<string, string>(file.Split('\\').Last(), file));
+
             }
             else
             {
@@ -98,7 +91,7 @@ namespace WpfApp1.Infrastructure
         {
             var dialog = DialogCreator.CreateOpenFileDialog();
             SetDefaultImageDialogSettings(dialog);
-                dialog.ShowDialog();
+            dialog.ShowDialog();
             if (!string.IsNullOrEmpty(dialog.FileName))
             {
                 return dialog.FileName;
@@ -134,15 +127,26 @@ namespace WpfApp1.Infrastructure
         //    };
         //}
 
-            private void SetDefaultSaveDialogSettings(FileDialog dialog, string folderPath)
+        private void SetDefaultSaveDialogSettings(FileDialog dialog, string folderPath)
         {
             dialog.InitialDirectory = folderPath;
             dialog.DefaultExt = "txt";
         }
 
         private void SetDefaultImageDialogSettings(FileDialog dialog)
-        {           
+        {
             dialog.Filter = "Image Files|*.jpeg;*.png;*.bmp;*...";
         }
     }
+
+    public static class FileManagementExtensions
+    {
+        private static readonly string[] allowedImageExtensions = new[] { "png", "jpeg", "jpg" ,"bmp" };
+        public static bool isImage(this string path)
+        {
+            var extension = Path.GetExtension(path).Remove(0,1);
+            return allowedImageExtensions.Contains(extension);
+        }
+    }
+
 }
