@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -75,6 +76,7 @@
   <ItemGroup>
     <Compile Include="MVVM\Commands\SelectFile.cs" />
     <Compile Include="MVVM\Models\DialogManagment.cs" />
+    <Compile Include="MVVM\Models\ImageView.cs" />
     <Compile Include="MVVM\ViewModels\ApplicationViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

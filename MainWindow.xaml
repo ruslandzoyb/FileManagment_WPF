@@ -5,6 +5,7 @@
        
         Title="MainWindow" Height="450" Width="800"
         >
+   
     <TabControl>
         <TabItem Header="First" Height="30" Width="100">
 
@@ -84,5 +85,31 @@
                 </Grid>
             </TabItem.Content>
         </TabItem>
+
+        <TabItem  AllowDrop="True" Header="Third" Height="30" Width="100">
+            <TabItem.InputBindings>
+                <KeyBinding  Modifiers="Ctrl" Key="V" Command="{Binding  Path=PasteFromClipboard}" ></KeyBinding>
+            </TabItem.InputBindings>
+            <TabItem.Content>
+               
+               
+                <ListView  ItemsSource="{Binding Path=DialogManagment.SelectedImages}" x:Name="imagesBox" Drop="ListView_Drop" AllowDrop="True" Margin="19,15,0,0">
+                  
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="5" HorizontalAlignment="Stretch"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Stretch">
+                                <Image Source="{Binding Image }" MaxHeight="200px" MaxWidth="200px"  HorizontalAlignment="Stretch" VerticalAlignment="Top" Stretch="UniformToFill" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </TabItem.Content>
+        </TabItem>
+
     </TabControl>
 </Window>

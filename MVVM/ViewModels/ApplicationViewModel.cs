@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
+﻿using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 using WpfApp1.Infrastructure;
 using WpfApp1.MVVM.Commands;
 using WpfApp1.MVVM.Models;
@@ -21,13 +17,17 @@ namespace WpfApp1.MVVM.ViewModels
         private BaseCommand selectFolder;
         private BaseCommand createFile;
         private BaseCommand selectMultiFiles;
+        private BaseCommand pasteFromClipboard;
         private FileManagement fileManagement;
+
+
         public ApplicationViewModel()
         {
             this.DialogManagment = new DialogManagment();
             fileManagement = new FileManagement();
-                      
         }
+
+
 
         public DialogManagment DialogManagment { get => dialogManagment; set => dialogManagment = value; }
 
@@ -38,8 +38,8 @@ namespace WpfApp1.MVVM.ViewModels
                 return selectFile ??
                   (selectFile = new BaseCommand(obj =>
 
-                  {                    
-                    dialogManagment.SelectedFile = fileManagement.SelectFileDialog();
+                  {
+                      dialogManagment.SelectedFile = fileManagement.SelectFileDialog();
                   }));
             }
         }
@@ -50,9 +50,9 @@ namespace WpfApp1.MVVM.ViewModels
             {
                 return selectImage ??
                   (selectImage = new BaseCommand(obj =>
-                  {                      
+                  {
                       dialogManagment.SelectedImage = fileManagement.SelectImageDialog();
-                     
+
                   }));
             }
         }
@@ -69,7 +69,7 @@ namespace WpfApp1.MVVM.ViewModels
                       {
                           dialogManagment.FolderPath = path;
                       }
-                         
+
                   }));
             }
         }
@@ -81,7 +81,7 @@ namespace WpfApp1.MVVM.ViewModels
                 return createFile ??
                   (createFile = new BaseCommand(obj =>
                   {
-                       fileManagement.HandleFileManagement(dialogManagment);
+                      fileManagement.HandleFileManagement(dialogManagment);
                   }));
             }
         }
@@ -98,11 +98,11 @@ namespace WpfApp1.MVVM.ViewModels
                       {
                           dialogManagment.FilesInSelectedFolder = fileManagement.GetFilesFromDirectory(path);
                       }
-                     
+
 
                   }));
             }
-             }
+        }
 
         public BaseCommand SelectMultiFiles
         {
@@ -121,19 +121,61 @@ namespace WpfApp1.MVVM.ViewModels
                           var intersect = filesFromDialog.Union(dialogManagment.SelectedFiles).ToList();
                           dialogManagment.SelectedFiles = intersect;
                       }
-                      
+
 
                   }));
             }
         }
 
-        
+        public BaseCommand PasteFromClipboard
+        {
+            get
+            {
+                return pasteFromClipboard ??
+                    (pasteFromClipboard = new BaseCommand(obj =>
+                    {
+                       
+                        if (Clipboard.ContainsImage() || Clipboard.ContainsFileDropList())
+                        {
+                            var files = ((string[])Clipboard.GetData(DataFormats.FileDrop))
+                        .Select(i => new ImageView { Image = i }).ToList();
+                            if (dialogManagment.SelectedImages != null)
+                            {
+                                dialogManagment.SelectedImages = dialogManagment.SelectedImages.Union(files).ToList();
+                                return;
+                            }
+
+                            this.dialogManagment.SelectedImages = files;
+                        }
+
+
+                    }));
+            }
+        }
+        public void DropHandle(object sender, DragEventArgs e)
+        {
+            var files = ((string[])e.Data.GetData(DataFormats.FileDrop))
+                .Select(i => new ImageView { Image = i }).ToList();
+            // var files = fileManagement.GetImagesFromPath(e.Data).ToList();
+            if (dialogManagment.SelectedImages != null)
+            {
+                dialogManagment.SelectedImages = dialogManagment.SelectedImages.Union(files).ToList();
+                return;
+            }
+
+            this.dialogManagment.SelectedImages = files;
+        }
+
+
+
+
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        }      
+        }
     }
 }

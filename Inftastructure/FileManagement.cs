@@ -1,11 +1,17 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media.Imaging;
 using WpfApp1.MVVM.Models;
+using IDataObject = System.Windows.IDataObject;
 
 namespace WpfApp1.Infrastructure
 {
@@ -103,7 +109,32 @@ namespace WpfApp1.Infrastructure
             }
         }
 
-        private void SetDefaultSaveDialogSettings(FileDialog dialog, string folderPath)
+        //public IEnumerable<ImageView> GetImagesFromPath(IDataObject data)
+        //{
+        //    var files = (string[])data.GetData(DataFormats.FileDrop);
+        //    foreach (var item in files)
+        //    {
+        //        yield return ConvertToImage(item);
+        //    }
+        //}
+
+        //private ImageView ConvertToImage(string fileName)
+        //{
+        //    Bitmap bitmap;
+        //    using (Stream bmpStream = System.IO.File.Open(fileName, System.IO.FileMode.Open))
+        //    {
+        //        Image image = Image.FromStream(bmpStream);
+
+        //        bitmap = new Bitmap(image);
+
+        //    }
+        //    return new ImageView
+        //    {
+        //        Image = bitmap,
+        //    };
+        //}
+
+            private void SetDefaultSaveDialogSettings(FileDialog dialog, string folderPath)
         {
             dialog.InitialDirectory = folderPath;
             dialog.DefaultExt = "txt";

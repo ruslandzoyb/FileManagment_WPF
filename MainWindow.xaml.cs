@@ -14,14 +14,23 @@ namespace WpfApp1
     public partial class MainWindow : Window
     {
 
-       
+        public event DragEventHandler OnGridDrop;
+
+
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new ApplicationViewModel();
+            var vm = new ApplicationViewModel();
+            DataContext = vm;
+            OnGridDrop += vm.DropHandle;
+           
         }
-       
-     
+
+        private void ListView_Drop(object sender, DragEventArgs e)
+        {
+            OnGridDrop?.Invoke(sender, e);
+        }
+
        
     }
 }

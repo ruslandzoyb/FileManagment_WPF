@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -15,6 +16,7 @@ namespace WpfApp1.MVVM.Models
         private string folderPath, text, selectedFile, selectedImage;
         private FileInfo[] filesInSelectedFolder;
         private IEnumerable<Tuple<string, string>> selectedFiles;
+        private List<ImageView> selectedImages;
 
 
 
@@ -71,6 +73,14 @@ namespace WpfApp1.MVVM.Models
                 OnPropertyChanged("SelectedFiles");
             }
         }
+
+        public List<ImageView> SelectedImages { get => selectedImages; set
+            {
+                selectedImages = value;
+                OnPropertyChanged("SelectedImages");
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
