@@ -18,6 +18,7 @@ namespace WpfApp1.MVVM.ViewModels
         private BaseCommand createFile;
         private BaseCommand selectMultiFiles;
         private BaseCommand pasteFromClipboard;
+        private BaseCommand selectMultiImages;
         private FileManagement fileManagement;
 
 
@@ -127,6 +128,31 @@ namespace WpfApp1.MVVM.ViewModels
             }
         }
 
+        public BaseCommand SelectMultiImages
+        {
+            get
+            {
+                return selectMultiImages ??
+                  (selectMultiImages = new BaseCommand(obj =>
+                  {
+                      var images = fileManagement
+                      .SelectMultiFileDialogForImages()
+                      .Select(i => new ImageView { Image = i.Item2 })
+                      .ToList();
+                      if (dialogManagment.SelectedImages is null)
+                      {
+                          dialogManagment.SelectedImages = images;
+                      }
+                      else
+                      {
+                          var intersect = images.Union(dialogManagment.SelectedImages).ToList();
+                          dialogManagment.SelectedImages = intersect;
+                      }
+
+                  }));
+            }
+        }
+
         public BaseCommand PasteFromClipboard
         {
             get
@@ -153,6 +179,7 @@ namespace WpfApp1.MVVM.ViewModels
                     }));
             }
         }
+
         public void DropHandle(object sender, DragEventArgs e)
         {
             var files = ((string[])e.Data.GetData(DataFormats.FileDrop))

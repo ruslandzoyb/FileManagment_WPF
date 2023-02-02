@@ -87,6 +87,12 @@ namespace WpfApp1.Infrastructure
 
         }
 
+        public IEnumerable<Tuple<string, string>> SelectMultiFileDialogForImages()
+        {
+            return SelectMultiFileDialog()
+                .Where(file => file.Item2.isImage());
+        }
+
         public string SelectImageDialog()
         {
             var dialog = DialogCreator.CreateOpenFileDialog();
@@ -101,31 +107,7 @@ namespace WpfApp1.Infrastructure
                 return string.Empty;
             }
         }
-
-        //public IEnumerable<ImageView> GetImagesFromPath(IDataObject data)
-        //{
-        //    var files = (string[])data.GetData(DataFormats.FileDrop);
-        //    foreach (var item in files)
-        //    {
-        //        yield return ConvertToImage(item);
-        //    }
-        //}
-
-        //private ImageView ConvertToImage(string fileName)
-        //{
-        //    Bitmap bitmap;
-        //    using (Stream bmpStream = System.IO.File.Open(fileName, System.IO.FileMode.Open))
-        //    {
-        //        Image image = Image.FromStream(bmpStream);
-
-        //        bitmap = new Bitmap(image);
-
-        //    }
-        //    return new ImageView
-        //    {
-        //        Image = bitmap,
-        //    };
-        //}
+       
 
         private void SetDefaultSaveDialogSettings(FileDialog dialog, string folderPath)
         {
@@ -142,6 +124,7 @@ namespace WpfApp1.Infrastructure
     public static class FileManagementExtensions
     {
         private static readonly string[] allowedImageExtensions = new[] { "png", "jpeg", "jpg" ,"bmp" };
+        
         public static bool isImage(this string path)
         {
             var extension = Path.GetExtension(path).Remove(0,1);
